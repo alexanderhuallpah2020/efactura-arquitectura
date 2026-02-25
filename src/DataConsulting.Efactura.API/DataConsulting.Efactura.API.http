@@ -1,0 +1,6 @@
+@DataConsulting.Efactura.API_HostAddress = http://localhost:5031
+
+GET {{DataConsulting.Efactura.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

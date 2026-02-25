@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/DataConsulting.Efactura.API/DataConsulting.Efactura.API.csproj" />
+    <Project Path="src/DataConsulting.Efactura.Application/DataConsulting.Efactura.Application.csproj" />
+    <Project Path="src/DataConsulting.Efactura.Domain/DataConsulting.Efactura.Domain.csproj" />
+    <Project Path="src/DataConsulting.Efactura.Infrastructure/DataConsulting.Efactura.Infrastructure.csproj" />
+  </Folder>
+</Solution>
