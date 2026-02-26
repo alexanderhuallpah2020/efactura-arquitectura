@@ -1,4 +1,5 @@
-﻿using DataConsulting.Efactura.Application.Abstractions.Data;
+﻿using Asp.Versioning;
+using DataConsulting.Efactura.Application.Abstractions.Data;
 using DataConsulting.Efactura.Domain.SegmentosSunat;
 using DataConsulting.Efactura.Infrastructure.Database;
 using DataConsulting.Efactura.Infrastructure.Repositories;
@@ -15,6 +16,8 @@ namespace DataConsulting.Efactura.Infrastructure
         IConfiguration configuration)
         {
             AddPersistence(services, configuration);
+            AddApiVersioning(services);
+
             return services;
         }
 
@@ -29,7 +32,26 @@ namespace DataConsulting.Efactura.Infrastructure
             });
 
             services.AddScoped<ISegmentoSunatRepository, SegmentoSunatRepository>();
+
             services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
+            services.AddScoped<IApplicationDbContext>(sp => sp.GetRequiredService<ApplicationDbContext>());
+        }
+
+        private static void AddApiVersioning(IServiceCollection services)
+        {
+            services
+                .AddApiVersioning(options =>
+                {
+                    options.DefaultApiVersion = new ApiVersion(1);
+                    options.ReportApiVersions = true;
+                    options.ApiVersionReader = new UrlSegmentApiVersionReader();
+                })
+                .AddMvc()
+                .AddApiExplorer(options =>
+                {
+                    options.GroupNameFormat = "'v'V";
+                    options.SubstituteApiVersionInUrl = true;
+                });
         }
     }
 }

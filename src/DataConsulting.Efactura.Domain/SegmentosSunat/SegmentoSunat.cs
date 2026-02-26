@@ -19,5 +19,24 @@ namespace DataConsulting.Efactura.Domain.SegmentosSunat
         public DateTime FechaCreacion { get; private set; }
         public short? IdUsuarioModificador { get; private set; }
         public DateTime? FechaModificacion { get; private set; }
+
+        public static SegmentoSunat Create(
+            int idSegmentoSunat,
+            string codigo,
+            string descripcion,
+            short idUsuarioCreador,
+            DateTime fechaCreacionUtc)
+        {
+            return new SegmentoSunat
+            {
+                IdSegmentoSunat = idSegmentoSunat,
+                Codigo = codigo,
+                Descripcion = descripcion,
+                Estado = EEstado.Activo,
+                UpdateToken = 1,
+                IdUsuarioCreador = idUsuarioCreador,
+                FechaCreacion = fechaCreacionUtc
+            };
+        }
     }
 }

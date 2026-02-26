@@ -21,5 +21,10 @@ namespace DataConsulting.Efactura.Infrastructure.Repositories
                 .OrderBy(x => x.Descripcion)
                 .ToListAsync(cancellationToken);
         }
+
+        public async Task<SegmentoSunat?> GetAsync(int id, CancellationToken cancellationToken = default)
+        {
+            return await _context.SegmentosSunat.SingleOrDefaultAsync(c => c.IdSegmentoSunat == id, cancellationToken);
+        }
     }
 }

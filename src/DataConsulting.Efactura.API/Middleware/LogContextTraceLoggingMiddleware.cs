@@ -1,19 +1,30 @@
-﻿using System.Diagnostics;
-using Serilog.Context;
+﻿using Serilog.Context;
+using System.Diagnostics;
 
 namespace DataConsulting.Efactura.API.Middleware
 {
-    internal sealed class LogContextTraceLoggingMiddleware(RequestDelegate next)
+    internal sealed class LogContextTraceLoggingMiddleware
     {
-        public Task Invoke(HttpContext context)
+        private readonly RequestDelegate _next;
+        private readonly ILogger<LogContextTraceLoggingMiddleware> _logger;
+
+        public LogContextTraceLoggingMiddleware(
+            RequestDelegate next,
+            ILogger<LogContextTraceLoggingMiddleware> logger)
         {
-            string traceId = Activity.Current?.TraceId.ToString();
+            _next = next;
+            _logger = logger;
+        }
+
+        public async Task Invoke(HttpContext context)
+        {
+            string traceId = Activity.Current?.TraceId.ToString() ?? context.TraceIdentifier;
 
             using (LogContext.PushProperty("TraceId", traceId))
             {
-                return next.Invoke(context);
+                _logger.LogInformation("TraceId middleware activo. TraceId={TraceId}", traceId);
+                await _next(context);
             }
         }
     }
-
 }

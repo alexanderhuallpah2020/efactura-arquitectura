@@ -1,35 +1,33 @@
 ﻿using DataConsulting.Efactura.Application.Abstractions.Data;
 using DataConsulting.Efactura.Domain.SegmentosSunat;
-using DataConsulting.Efactura.Infrastructure.Configurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using System.Data.Common;
 
 namespace DataConsulting.Efactura.Infrastructure.Database;
 
-public sealed class ApplicationDbContext : DbContext, IUnitOfWork
+public sealed class ApplicationDbContext : DbContext, IApplicationDbContext, IUnitOfWork
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        : base(options)
+    : base(options)
     {
     }
 
-    public DbSet<SegmentoSunat> SegmentosSunat => Set<SegmentoSunat>();
+    public DbSet<SegmentoSunat> SegmentosSunat { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfiguration(new SegmentoSunatConfiguration());
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+        base.OnModelCreating(modelBuilder);
     }
 
     public async Task<DbTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default)
     {
-        // Si ya hay una transacción activa, no la reiniciamos.
         if (Database.CurrentTransaction is not null)
         {
-            return Database.CurrentTransaction.GetDbTransaction();
+            await Database.CurrentTransaction.DisposeAsync();
         }
 
-        IDbContextTransaction tx = await Database.BeginTransactionAsync(cancellationToken);
-        return tx.GetDbTransaction();
+        return (await Database.BeginTransactionAsync(cancellationToken)).GetDbTransaction();
     }
 }
