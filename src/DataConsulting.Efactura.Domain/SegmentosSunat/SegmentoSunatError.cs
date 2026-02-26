@@ -1,4 +1,6 @@
-﻿namespace DataConsulting.Efactura.Domain.SegmentosSunat
+﻿using DataConsulting.Efactura.Domain.Abstractions;
+
+namespace DataConsulting.Efactura.Domain.SegmentosSunat
 {
     public static class SegmentoSunatErrors
     {

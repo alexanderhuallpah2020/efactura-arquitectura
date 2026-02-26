@@ -1,38 +1,66 @@
 ﻿using DataConsulting.Efactura.Domain.SegmentosSunat;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace DataConsulting.Efactura.Infrastructure.Configurations
+namespace DataConsulting.Efactura.Infrastructure.Configurations;
+
+internal sealed class SegmentoSunatConfiguration : IEntityTypeConfiguration<SegmentoSunat>
 {
-    internal sealed class SegmentoSunatConfiguration : IEntityTypeConfiguration<SegmentoSunat>
+    public void Configure(EntityTypeBuilder<SegmentoSunat> builder)
     {
-        public void Configure(EntityTypeBuilder<Apartment> builder)
-        {
-            builder.ToTable("apartments");
+        builder.ToTable("SegmentoSunat", "dbo");
 
-            builder.HasKey(apartment => apartment.Id);
+        builder.HasKey(x => x.IdSegmentoSunat);
 
-            builder.OwnsOne(apartment => apartment.Address);
+        builder.Property(x => x.IdSegmentoSunat)
+            .HasColumnName("IdSegmentoSunat")
+            .ValueGeneratedNever();
 
-            builder.Property(apartment => apartment.Name)
-                .HasMaxLength(200)
-                .HasConversion(name => name.Value, value => new Name(value));
+        builder.Property(x => x.Codigo)
+            .HasColumnName("Codigo")
+            .HasMaxLength(10)
+            .IsRequired()
+            .IsUnicode(false);
 
-            builder.Property(apartment => apartment.Description)
-                .HasMaxLength(2000)
-                .HasConversion(description => description.Value, value => new Description(value));
+        builder.Property(x => x.Descripcion)
+            .HasColumnName("Descripcion")
+            .HasMaxLength(200)
+            .IsRequired()
+            .IsUnicode(false);
 
-            builder.OwnsOne(apartment => apartment.Price, priceBuilder =>
-            {
-                priceBuilder.Property(money => money.Currency)
-                    .HasConversion(currency => currency.Code, code => Currency.FromCode(code));
-            });
+        builder.Property(x => x.Estado)
+            .HasColumnName("Estado")
+            .HasColumnType("smallint")
+            .IsRequired()
+            // Si EEstado es int, esto lo guarda como smallint en BD.
+            .HasConversion<short>();
 
-            builder.OwnsOne(apartment => apartment.CleaningFee, priceBuilder =>
-            {
-                priceBuilder.Property(money => money.Currency)
-                    .HasConversion(currency => currency.Code, code => Currency.FromCode(code));
-            });
+        builder.Property(x => x.UpdateToken)
+            .HasColumnName("UpdateToken")
+            .HasColumnType("smallint")
+            .IsRequired();
 
-            builder.Property<uint>("Version").IsRowVersion();
-        }
+        builder.Property(x => x.IdUsuarioCreador)
+            .HasColumnName("IdUsuarioCreador")
+            .HasColumnType("smallint")
+            .IsRequired();
+
+        builder.Property(x => x.FechaCreacion)
+            .HasColumnName("FechaCreacion")
+            .HasColumnType("smalldatetime")
+            .IsRequired();
+
+        builder.Property(x => x.IdUsuarioModificador)
+            .HasColumnName("IdUsuarioModificador")
+            .HasColumnType("smallint");
+
+        builder.Property(x => x.FechaModificacion)
+            .HasColumnName("FechaModificacion")
+            .HasColumnType("smalldatetime");
+
+        // Si UpdateToken funciona como token de concurrencia (no rowversion),
+        // use concurrency token.
+        builder.Property(x => x.UpdateToken)
+            .IsConcurrencyToken();
     }
 }
