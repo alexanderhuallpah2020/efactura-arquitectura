@@ -1,5 +1,6 @@
 ﻿using DataConsulting.Efactura.Application.Abstractions.Behaviors;
 using DataConsulting.Efactura.Application.Abstractions.Messaging;
+using DataConsulting.Efactura.Application.Services.ClasesSunat;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,6 +17,9 @@ namespace DataConsulting.Efactura.Application
                 typeof(ICommandHandler<,>)
                 ), publicOnly: false)
             .AsImplementedInterfaces()
+            .WithScopedLifetime()
+            .AddClasses(classes => classes.Where(c => c.Name.EndsWith("Service")), publicOnly: false)
+            .AsImplementedInterfaces()
             .WithScopedLifetime());
 
             // Decoradores de validacion y de trazabilidad
@@ -24,7 +28,6 @@ namespace DataConsulting.Efactura.Application
             services.Decorate(typeof(IQueryHandler<,>), typeof(LoggingDecorator.QueryHandler<,>));
             services.Decorate(typeof(ICommandHandler<,>), typeof(LoggingDecorator.CommandHandler<,>));
             //services.Decorate(typeof(ICommandHandler<>), typeof(LoggingDecorator.CommandBaseHandler<>));
-
 
             services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly, includeInternalTypes: true);
 

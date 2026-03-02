@@ -1,4 +1,4 @@
-﻿namespace DataConsulting.Efactura.Application.SegmentosSunat.Queries.GetAllSegmentosSunat
+﻿namespace DataConsulting.Efactura.Application.Features.SegmentosSunat.Queries.GetAllSegmentosSunat
 {
     public sealed class GetAllSegmentosSunatResponse
     {

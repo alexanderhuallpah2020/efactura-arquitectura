@@ -3,7 +3,7 @@ using DataConsulting.Efactura.Application.Abstractions.Messaging;
 using DataConsulting.Efactura.Domain.Abstractions;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataConsulting.Efactura.Application.SegmentosSunat.Queries.GetAllSegmentosSunat
+namespace DataConsulting.Efactura.Application.Features.SegmentosSunat.Queries.GetAllSegmentosSunat
 {
     internal sealed class GetAllSegmentosSunatQueryHandler(IApplicationDbContext context)
         : IQueryHandler<GetAllSegmentosSunatQuery, List<GetAllSegmentosSunatResponse>>

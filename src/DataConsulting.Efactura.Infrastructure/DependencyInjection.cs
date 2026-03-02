@@ -34,7 +34,10 @@ namespace DataConsulting.Efactura.Infrastructure
             services.AddSingleton<IDbConnectionFactory>(_ =>
             new DbConnectionFactory(connectionString));
 
-            services.AddScoped<ISegmentoSunatRepository, SegmentoSunatRepository>();
+            services.Scan(scan => scan.FromAssembliesOf(typeof(DependencyInjection))
+            .AddClasses(classes => classes.Where(c => c.Name.EndsWith("Repository")), publicOnly: false)
+            .AsImplementedInterfaces()
+            .WithScopedLifetime());
 
             services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
             services.AddScoped<IApplicationDbContext>(sp => sp.GetRequiredService<ApplicationDbContext>());

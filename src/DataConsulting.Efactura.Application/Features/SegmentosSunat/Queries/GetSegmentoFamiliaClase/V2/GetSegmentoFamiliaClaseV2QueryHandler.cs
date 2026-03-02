@@ -1,13 +1,14 @@
 ﻿using Dapper;
 using DataConsulting.Efactura.Application.Abstractions.Data;
 using DataConsulting.Efactura.Application.Abstractions.Messaging;
+using DataConsulting.Efactura.Application.Features.SegmentosSunat.Queries.GetSegmentoFamiliaClase;
 using DataConsulting.Efactura.Domain.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Text;
 
-namespace DataConsulting.Efactura.Application.SegmentosSunat.Queries.GetSegmentoFamiliaClase.V2
+namespace DataConsulting.Efactura.Application.Features.SegmentosSunat.Queries.GetSegmentoFamiliaClase.V2
 {
     internal sealed class GetSegmentoFamiliaClaseV2QueryHandler(IDbConnectionFactory dbConnectionFactory)
           : IQueryHandler<GetSegmentoFamiliaClaseV2Query, List<GetSegmentoFamiliaClaseResponse>>

@@ -1,9 +1,10 @@
 ﻿using DataConsulting.Efactura.Application.Abstractions.Data;
 using DataConsulting.Efactura.Application.Abstractions.Messaging;
+using DataConsulting.Efactura.Application.Features.SegmentosSunat.Queries.GetSegmentoFamiliaClase;
 using DataConsulting.Efactura.Domain.Abstractions;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataConsulting.Efactura.Application.SegmentosSunat.Queries.GetSegmentoFamiliaClase.V1
+namespace DataConsulting.Efactura.Application.Features.SegmentosSunat.Queries.GetSegmentoFamiliaClase.V1
 {
     internal sealed class GetSegmentoFamiliaClaseV1QueryHandler(IApplicationDbContext context)
             : IQueryHandler<GetSegmentoFamiliaClaseV1Query, List<GetSegmentoFamiliaClaseResponse>>

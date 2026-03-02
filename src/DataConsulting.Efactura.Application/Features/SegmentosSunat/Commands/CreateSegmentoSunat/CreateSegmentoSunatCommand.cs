@@ -1,6 +1,6 @@
 ﻿using DataConsulting.Efactura.Application.Abstractions.Messaging;
 
-namespace DataConsulting.Efactura.Application.SegmentosSunat.Commands.CreateSegmentoSunat
+namespace DataConsulting.Efactura.Application.Features.SegmentosSunat.Commands.CreateSegmentoSunat
 {
     public sealed record CreateSegmentoSunatCommand(
            string Codigo,

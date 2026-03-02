@@ -1,4 +1,4 @@
-﻿namespace DataConsulting.Efactura.Application.SegmentosSunat.Queries.GetSegmentoFamiliaClase
+﻿namespace DataConsulting.Efactura.Application.Features.SegmentosSunat.Queries.GetSegmentoFamiliaClase
 {
     public sealed class GetSegmentoFamiliaClaseResponse
     {

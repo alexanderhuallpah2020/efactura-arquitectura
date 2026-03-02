@@ -1,12 +1,12 @@
 ﻿using Asp.Versioning;
 using DataConsulting.Efactura.API.Utils;
 using DataConsulting.Efactura.Application.Abstractions.Messaging;
-using DataConsulting.Efactura.Application.SegmentosSunat.Commands.CreateSegmentoSunat;
-using DataConsulting.Efactura.Application.SegmentosSunat.Queries.GetAllSegmentosSunat;
-using DataConsulting.Efactura.Application.SegmentosSunat.Queries.GetSegmentoFamiliaClase;
-using DataConsulting.Efactura.Application.SegmentosSunat.Queries.GetSegmentoFamiliaClase.V1;
-using DataConsulting.Efactura.Application.SegmentosSunat.Queries.GetSegmentoFamiliaClase.V2;
-using DataConsulting.Efactura.Application.SegmentosSunat.Queries.GetSegmentoSunatById;
+using DataConsulting.Efactura.Application.Features.SegmentosSunat.Commands.CreateSegmentoSunat;
+using DataConsulting.Efactura.Application.Features.SegmentosSunat.Queries.GetAllSegmentosSunat;
+using DataConsulting.Efactura.Application.Features.SegmentosSunat.Queries.GetSegmentoFamiliaClase;
+using DataConsulting.Efactura.Application.Features.SegmentosSunat.Queries.GetSegmentoFamiliaClase.V1;
+using DataConsulting.Efactura.Application.Features.SegmentosSunat.Queries.GetSegmentoFamiliaClase.V2;
+using DataConsulting.Efactura.Application.Features.SegmentosSunat.Queries.GetSegmentoSunatById;
 using DataConsulting.Efactura.Domain.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 

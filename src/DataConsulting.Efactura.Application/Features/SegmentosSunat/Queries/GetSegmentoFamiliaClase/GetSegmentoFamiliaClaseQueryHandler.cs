@@ -4,7 +4,7 @@ using DataConsulting.Efactura.Application.Abstractions.Messaging;
 using DataConsulting.Efactura.Domain.Abstractions;
 using System.Data.Common;
 
-namespace DataConsulting.Efactura.Application.SegmentosSunat.Queries.GetSegmentoFamiliaClase
+namespace DataConsulting.Efactura.Application.Features.SegmentosSunat.Queries.GetSegmentoFamiliaClase
 {
     internal sealed class GetSegmentoFamiliaClaseQueryHandler(IDbConnectionFactory dbConnectionFactory)
          : IQueryHandler<GetSegmentoFamiliaClaseQuery, List<GetSegmentoFamiliaClaseResponse>>

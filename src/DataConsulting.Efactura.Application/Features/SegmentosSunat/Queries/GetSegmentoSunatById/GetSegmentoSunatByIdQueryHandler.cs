@@ -4,7 +4,7 @@ using DataConsulting.Efactura.Domain.Abstractions;
 using DataConsulting.Efactura.Domain.SegmentosSunat;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataConsulting.Efactura.Application.SegmentosSunat.Queries.GetSegmentoSunatById
+namespace DataConsulting.Efactura.Application.Features.SegmentosSunat.Queries.GetSegmentoSunatById
 {
     internal sealed class GetSegmentoSunatByIdQueryHandler(IApplicationDbContext context)
         : IQueryHandler<GetSegmentoSunatByIdQuery, GetSegmentoSunatByIdResponse>

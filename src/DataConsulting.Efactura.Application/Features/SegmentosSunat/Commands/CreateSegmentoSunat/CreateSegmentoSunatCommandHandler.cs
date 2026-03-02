@@ -3,7 +3,7 @@ using DataConsulting.Efactura.Application.Abstractions.Messaging;
 using DataConsulting.Efactura.Domain.Abstractions;
 using DataConsulting.Efactura.Domain.SegmentosSunat;
 
-namespace DataConsulting.Efactura.Application.SegmentosSunat.Commands.CreateSegmentoSunat
+namespace DataConsulting.Efactura.Application.Features.SegmentosSunat.Commands.CreateSegmentoSunat
 {
     internal sealed class CreateSegmentoSunatCommandHandler(
          ISegmentoSunatRepository repository,

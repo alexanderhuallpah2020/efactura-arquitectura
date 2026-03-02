@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace DataConsulting.Efactura.Application.SegmentosSunat.Commands.CreateSegmentoSunat
+namespace DataConsulting.Efactura.Application.Features.SegmentosSunat.Commands.CreateSegmentoSunat
 {
     internal sealed class CreateSegmentoSunatCommandValidator : AbstractValidator<CreateSegmentoSunatCommand>
     {
