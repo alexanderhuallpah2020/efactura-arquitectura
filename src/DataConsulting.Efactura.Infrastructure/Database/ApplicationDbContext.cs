@@ -1,4 +1,6 @@
 ﻿using DataConsulting.Efactura.Application.Abstractions.Data;
+using DataConsulting.Efactura.Domain.ClasesSunat;
+using DataConsulting.Efactura.Domain.FamiliasSunat;
 using DataConsulting.Efactura.Domain.SegmentosSunat;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -14,6 +16,8 @@ public sealed class ApplicationDbContext : DbContext, IApplicationDbContext, IUn
     }
 
     public DbSet<SegmentoSunat> SegmentosSunat { get; set; }
+    public DbSet<FamiliaSunat> FamiliasSunat { get; set; }
+    public DbSet<ClaseSunat> ClasesSunat { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DataConsulting.Efactura.Domain.Abstractions
+﻿namespace DataConsulting.Efactura.Domain.Abstractions
 {
     public abstract class Entity
     {
@@ -16,6 +12,6 @@ namespace DataConsulting.Efactura.Domain.Abstractions
         protected Entity()
         {
         }
-        
+
     }
 }

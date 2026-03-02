@@ -1,13 +1,10 @@
 ﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DataConsulting.Efactura.Application.SegmentosSunat.Commands.CreateSegmentoSunat
 {
     internal sealed class CreateSegmentoSunatCommandValidator : AbstractValidator<CreateSegmentoSunatCommand>
     {
-public CreateSegmentoSunatCommandValidator()
+        public CreateSegmentoSunatCommandValidator()
         {
             RuleFor(x => x.Codigo)
                 .NotEmpty().WithMessage("El código es obligatorio.")
