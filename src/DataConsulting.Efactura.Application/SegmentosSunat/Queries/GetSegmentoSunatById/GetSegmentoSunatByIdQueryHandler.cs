@@ -15,7 +15,7 @@ namespace DataConsulting.Efactura.Application.SegmentosSunat.Queries.GetSegmento
         {
             var item = await context.SegmentosSunat
                 .AsNoTracking()
-                .Where(x => x.IdSegmentoSunat == query.idSegmentoSunat)
+                .Where(x => x.Id == query.idSegmentoSunat)
                 .Select(x => new GetSegmentoSunatByIdResponse
                 {
                     IdSegmentoSunat = x.IdSegmentoSunat,
@@ -32,8 +32,7 @@ namespace DataConsulting.Efactura.Application.SegmentosSunat.Queries.GetSegmento
 
             if (item is null)
             {
-                return Result.Failure<GetSegmentoSunatByIdResponse>(
-                    SegmentoSunatErrors.NotFound(query.idSegmentoSunat));
+                return Result.Failure<GetSegmentoSunatByIdResponse>(SegmentoSunatErrors.NotFound(query.idSegmentoSunat));
             }
 
             return item;

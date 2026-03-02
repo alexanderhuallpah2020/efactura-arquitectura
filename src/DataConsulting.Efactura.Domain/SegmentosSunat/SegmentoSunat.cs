@@ -5,27 +5,9 @@ namespace DataConsulting.Efactura.Domain.SegmentosSunat
 {
     public sealed class SegmentoSunat : Entity
     {
-        private SegmentoSunat(
-            int id,
-            string codigo,
-            string descripcion,
-            EEstado estado,
-            short updateToken,
-            short idUsuarioCreador,
-            DateTime fechaCreacion)
-            : base(id)
-        {
-            Codigo = codigo;
-            Descripcion = descripcion;
-            Estado = estado;
-            UpdateToken = updateToken;
-            IdUsuarioCreador = idUsuarioCreador;
-            FechaCreacion = fechaCreacion;
-        }
-
         private SegmentoSunat() { }
 
-        public int IdSegmentoSunat { get; private set; }
+        public int IdSegmentoSunat => Id;
         public string Codigo { get; private set; } = default!;
         public string Descripcion { get; private set; } = default!;
         public EEstado Estado { get; private set; }
@@ -39,23 +21,27 @@ namespace DataConsulting.Efactura.Domain.SegmentosSunat
         public short? IdUsuarioModificador { get; private set; }
         public DateTime? FechaModificacion { get; private set; }
 
-        public static SegmentoSunat Create(
-            int idSegmentoSunat,
+        public static Result<SegmentoSunat> Create(
+            int id,
             string codigo,
             string descripcion,
+            short updateToken,
             short idUsuarioCreador,
             DateTime fechaCreacion)
         {
-            return new SegmentoSunat
+
+            var segmento = new SegmentoSunat
             {
-                IdSegmentoSunat = idSegmentoSunat,
-                Codigo = codigo,
-                Descripcion = descripcion,
+                Id = id,
+                Codigo = codigo.Trim().ToUpper(),
+                Descripcion = descripcion.Trim(),
                 Estado = EEstado.Activo,
-                UpdateToken = 1,
+                UpdateToken = updateToken,
                 IdUsuarioCreador = idUsuarioCreador,
                 FechaCreacion = fechaCreacion
             };
+
+            return Result.Success(segmento);
         }
     }
 }

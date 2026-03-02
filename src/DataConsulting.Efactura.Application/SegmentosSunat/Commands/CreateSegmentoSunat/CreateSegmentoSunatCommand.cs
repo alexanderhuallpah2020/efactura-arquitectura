@@ -5,5 +5,5 @@ namespace DataConsulting.Efactura.Application.SegmentosSunat.Commands.CreateSegm
     public sealed record CreateSegmentoSunatCommand(
            string Codigo,
            string Descripcion
-       ) : ICommand;
+       ) : ICommand<int>;
 }

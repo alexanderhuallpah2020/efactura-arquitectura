@@ -16,9 +16,9 @@ namespace DataConsulting.Efactura.API.Controllers.SegmentosSunat
     {
         private readonly IQueryHandler<GetAllSegmentosSunatQuery, List<GetAllSegmentosSunatResponse>> _getAllHandler;
         private readonly IQueryHandler<GetSegmentoSunatByIdQuery, GetSegmentoSunatByIdResponse> _getByIdHandler;
-        private readonly ICommandHandler<CreateSegmentoSunatCommand> _createHandler;
+        private readonly ICommandHandler<CreateSegmentoSunatCommand, int> _createHandler;
 
-        public SegmentoSunatController(IQueryHandler<GetAllSegmentosSunatQuery, List<GetAllSegmentosSunatResponse>> getAllHandler, IQueryHandler<GetSegmentoSunatByIdQuery, GetSegmentoSunatByIdResponse> getByIdHandler, ICommandHandler<CreateSegmentoSunatCommand> createHandler)
+        public SegmentoSunatController(IQueryHandler<GetAllSegmentosSunatQuery, List<GetAllSegmentosSunatResponse>> getAllHandler, IQueryHandler<GetSegmentoSunatByIdQuery, GetSegmentoSunatByIdResponse> getByIdHandler, ICommandHandler<CreateSegmentoSunatCommand, int> createHandler)
         {
             _getAllHandler = getAllHandler;
             _getByIdHandler = getByIdHandler;
@@ -51,9 +51,9 @@ namespace DataConsulting.Efactura.API.Controllers.SegmentosSunat
                 request.Codigo,
                 request.Descripcion);
 
-            Result result = await _createHandler.Handle(command, cancellationToken);
+            Result<int> result = await _createHandler.Handle(command, cancellationToken);
 
-            return result.IsSuccess ? Ok() : BadRequest(result.Error);
+            return result.IsSuccess ? Ok(result.Value) : BadRequest(result.Error);
         }
     }
 }

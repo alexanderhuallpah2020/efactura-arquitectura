@@ -8,29 +8,35 @@ namespace DataConsulting.Efactura.Application.SegmentosSunat.Commands.CreateSegm
     internal sealed class CreateSegmentoSunatCommandHandler(
          ISegmentoSunatRepository repository,
          IUnitOfWork unitOfWork)
-         : ICommandHandler<CreateSegmentoSunatCommand>
+         : ICommandHandler<CreateSegmentoSunatCommand, int>
     {
-        public async Task<Result> Handle(CreateSegmentoSunatCommand request, CancellationToken cancellationToken)
+        public async Task<Result<int>> Handle(CreateSegmentoSunatCommand request, CancellationToken cancellationToken)
         {
             if (await repository.ExistsByCodigoAsync(request.Codigo, cancellationToken))
             {
-                return Result.Failure(SegmentoSunatErrors.CodigoDuplicado(request.Codigo));
+                return Result.Failure<int>(SegmentoSunatErrors.CodigoDuplicado(request.Codigo));
             }
 
             int nuevoId = await repository.GetNextIdAsync(cancellationToken);
 
-            var entity = SegmentoSunat.Create(
-                nuevoId,
-                request.Codigo,
-                request.Descripcion,
-                1,
-                DateTime.UtcNow);
+            var result = SegmentoSunat.Create(
+               nuevoId,
+               request.Codigo,
+               request.Descripcion,
+               1,
+               1,
+               DateTime.UtcNow);
 
-            repository.Add(entity);
+            if (result.IsFailure)
+            {
+                return Result.Failure<int>(result.Error);
+            }
+
+            repository.Add(result.Value);
 
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return Result.Success(entity.Id);
+            return Result.Success(result.Value.Id);
         }
     }
 }

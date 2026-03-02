@@ -10,9 +10,9 @@ internal sealed class SegmentoSunatConfiguration : IEntityTypeConfiguration<Segm
     {
         builder.ToTable("SegmentoSunat", "dbo");
 
-        builder.HasKey(x => x.IdSegmentoSunat);
+        builder.HasKey(x => x.Id);
 
-        builder.Property(x => x.IdSegmentoSunat)
+        builder.Property(x => x.Id)
             .HasColumnName("IdSegmentoSunat")
             .ValueGeneratedNever();
 
