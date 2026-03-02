@@ -2,20 +2,23 @@
 using DataConsulting.Efactura.Application.Abstractions.Data;
 using DataConsulting.Efactura.Application.Abstractions.Messaging;
 using DataConsulting.Efactura.Domain.Abstractions;
+using System;
+using System.Collections.Generic;
 using System.Data.Common;
+using System.Text;
 
-namespace DataConsulting.Efactura.Application.SegmentosSunat.Queries.GetSegmentoFamiliaClase
+namespace DataConsulting.Efactura.Application.SegmentosSunat.Queries.GetSegmentoFamiliaClase.V2
 {
-    internal sealed class GetSegmentoFamiliaClaseQueryHandler(IDbConnectionFactory dbConnectionFactory)
-         : IQueryHandler<GetSegmentoFamiliaClaseQuery, List<GetSegmentoFamiliaClaseResponse>>
+    internal sealed class GetSegmentoFamiliaClaseV2QueryHandler(IDbConnectionFactory dbConnectionFactory)
+          : IQueryHandler<GetSegmentoFamiliaClaseV2Query, List<GetSegmentoFamiliaClaseResponse>>
     {
         public async Task<Result<List<GetSegmentoFamiliaClaseResponse>>> Handle(
-            GetSegmentoFamiliaClaseQuery request,
+            GetSegmentoFamiliaClaseV2Query query,
             CancellationToken cancellationToken)
         {
             await using DbConnection connection = await dbConnectionFactory.OpenConnectionAsync();
 
-           const string sql =
+            const string sql =
                 $"""
                 SELECT
                     s.Codigo      AS {nameof(GetSegmentoFamiliaClaseResponse.Segmento)},
@@ -30,7 +33,9 @@ namespace DataConsulting.Efactura.Application.SegmentosSunat.Queries.GetSegmento
                 ORDER BY s.Codigo, f.Codigo, c.Codigo;
                 """;
 
-            var rows = await connection.QueryAsync<GetSegmentoFamiliaClaseResponse>(sql);
+            var command = new CommandDefinition(sql, cancellationToken: cancellationToken);
+
+            var rows = await connection.QueryAsync<GetSegmentoFamiliaClaseResponse>(command);
 
             return rows.AsList();
         }

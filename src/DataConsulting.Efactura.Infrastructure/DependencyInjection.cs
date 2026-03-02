@@ -31,6 +31,9 @@ namespace DataConsulting.Efactura.Infrastructure
                 options.UseSqlServer(connectionString);
             });
 
+            services.AddSingleton<IDbConnectionFactory>(_ =>
+            new DbConnectionFactory(connectionString));
+
             services.AddScoped<ISegmentoSunatRepository, SegmentoSunatRepository>();
 
             services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());

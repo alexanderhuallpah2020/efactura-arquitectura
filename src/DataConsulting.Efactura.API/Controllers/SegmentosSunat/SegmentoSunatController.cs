@@ -4,6 +4,8 @@ using DataConsulting.Efactura.Application.Abstractions.Messaging;
 using DataConsulting.Efactura.Application.SegmentosSunat.Commands.CreateSegmentoSunat;
 using DataConsulting.Efactura.Application.SegmentosSunat.Queries.GetAllSegmentosSunat;
 using DataConsulting.Efactura.Application.SegmentosSunat.Queries.GetSegmentoFamiliaClase;
+using DataConsulting.Efactura.Application.SegmentosSunat.Queries.GetSegmentoFamiliaClase.V1;
+using DataConsulting.Efactura.Application.SegmentosSunat.Queries.GetSegmentoFamiliaClase.V2;
 using DataConsulting.Efactura.Application.SegmentosSunat.Queries.GetSegmentoSunatById;
 using DataConsulting.Efactura.Domain.Abstractions;
 using Microsoft.AspNetCore.Mvc;
@@ -17,14 +19,16 @@ namespace DataConsulting.Efactura.API.Controllers.SegmentosSunat
     {
         private readonly IQueryHandler<GetAllSegmentosSunatQuery, List<GetAllSegmentosSunatResponse>> _getAllHandler;
         private readonly IQueryHandler<GetSegmentoSunatByIdQuery, GetSegmentoSunatByIdResponse> _getByIdHandler;
-        private readonly IQueryHandler<GetSegmentoFamiliaClaseQuery, List<GetSegmentoFamiliaClaseResponse>> _getTreeHandler;
+        private readonly IQueryHandler<GetSegmentoFamiliaClaseV1Query, List<GetSegmentoFamiliaClaseResponse>> _familiasClasesV1Handler;
+        private readonly IQueryHandler<GetSegmentoFamiliaClaseV2Query, List<GetSegmentoFamiliaClaseResponse>> _familiasClasesV2Handler;
         private readonly ICommandHandler<CreateSegmentoSunatCommand, int> _createHandler;
 
-        public SegmentoSunatController(IQueryHandler<GetAllSegmentosSunatQuery, List<GetAllSegmentosSunatResponse>> getAllHandler, IQueryHandler<GetSegmentoSunatByIdQuery, GetSegmentoSunatByIdResponse> getByIdHandler, IQueryHandler<GetSegmentoFamiliaClaseQuery, List<GetSegmentoFamiliaClaseResponse>> getTreeHandler, ICommandHandler<CreateSegmentoSunatCommand, int> createHandler)
+        public SegmentoSunatController(IQueryHandler<GetAllSegmentosSunatQuery, List<GetAllSegmentosSunatResponse>> getAllHandler, IQueryHandler<GetSegmentoSunatByIdQuery, GetSegmentoSunatByIdResponse> getByIdHandler, IQueryHandler<GetSegmentoFamiliaClaseV1Query, List<GetSegmentoFamiliaClaseResponse>> familiasClasesV1Handler, IQueryHandler<GetSegmentoFamiliaClaseV2Query, List<GetSegmentoFamiliaClaseResponse>> familiasClasesV2Handler, ICommandHandler<CreateSegmentoSunatCommand, int> createHandler)
         {
             _getAllHandler = getAllHandler;
             _getByIdHandler = getByIdHandler;
-            _getTreeHandler = getTreeHandler;
+            _familiasClasesV1Handler = familiasClasesV1Handler;
+            _familiasClasesV2Handler = familiasClasesV2Handler;
             _createHandler = createHandler;
         }
 
@@ -45,11 +49,20 @@ namespace DataConsulting.Efactura.API.Controllers.SegmentosSunat
             return result.IsSuccess ? Ok(result.Value) : NotFound(result.Error);
         }
 
-        [HttpGet("familias-clases")]
-        public async Task<IActionResult> GetSegmentoFamiliaClase(CancellationToken cancellationToken = default)
+        [HttpGet("familias-clases-linq")]
+        public async Task<IActionResult> GetFamiliasClasesLinq(CancellationToken cancellationToken = default)
         {
-            var query = new GetSegmentoFamiliaClaseQuery();
-            var result = await _getTreeHandler.Handle(query, cancellationToken);
+            var query = new GetSegmentoFamiliaClaseV1Query();
+            var result = await _familiasClasesV1Handler.Handle(query, cancellationToken);
+
+            return result.IsSuccess ? Ok(result.Value) : BadRequest(result.Error);
+        }
+
+        [HttpGet("familias-clases-dapper")]
+        public async Task<IActionResult> GetFamiliasClasesDapper(CancellationToken cancellationToken = default)
+        {
+            var query = new GetSegmentoFamiliaClaseV2Query();
+            var result = await _familiasClasesV2Handler.Handle(query, cancellationToken);
 
             return result.IsSuccess ? Ok(result.Value) : BadRequest(result.Error);
         }
