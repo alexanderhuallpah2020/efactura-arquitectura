@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace DataConsulting.Efactura.Domain.Abstractions
+{
+    public abstract class Entity
+    {
+        public int Id { get; init; }
+
+        protected Entity(int id)
+        {
+            Id = id;
+        }
+
+        protected Entity()
+        {
+        }
+        
+    }
+}

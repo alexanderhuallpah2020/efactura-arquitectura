@@ -48,10 +48,8 @@ namespace DataConsulting.Efactura.API.Controllers.SegmentosSunat
            CancellationToken cancellationToken = default)
         {
             var command = new CreateSegmentoSunatCommand(
-                request.IdSegmentoSunat,
                 request.Codigo,
-                request.Descripcion,
-                request.IdUsuarioCreador);
+                request.Descripcion);
 
             Result result = await _createHandler.Handle(command, cancellationToken);
 

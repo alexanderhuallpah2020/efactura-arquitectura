@@ -1,6 +1,7 @@
 ﻿using DataConsulting.Efactura.Domain.Abstractions;
 
 namespace DataConsulting.Efactura.Application.Exceptions;
+
 public sealed record ValidationError : Error
 {
     public ValidationError(Error[] errors)

@@ -10,9 +10,9 @@ namespace DataConsulting.Efactura.API.Extensions
             {
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "Evently API",
+                    Title = "eFactura API",
                     Version = "v1",
-                    Description = "Evently API built using the modular monolith architecture."
+                    Description = "eFactura API built using clean architecture."
                 });
 
                 options.CustomSchemaIds(t => t.FullName?.Replace("+", "."));

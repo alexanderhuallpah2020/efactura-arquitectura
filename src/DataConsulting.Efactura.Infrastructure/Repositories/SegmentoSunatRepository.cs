@@ -4,27 +4,32 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataConsulting.Efactura.Infrastructure.Repositories
 {
-    internal sealed class SegmentoSunatRepository : ISegmentoSunatRepository
+    internal sealed class SegmentoSunatRepository(ApplicationDbContext dbContext)
+    : Repository<SegmentoSunat>(dbContext), ISegmentoSunatRepository
     {
-        private readonly ApplicationDbContext _context;
-
-        public SegmentoSunatRepository(ApplicationDbContext context)
-        {
-            _context = context;
-        }
-
         public async Task<IReadOnlyList<SegmentoSunat>> GetAllAsync(
             CancellationToken cancellationToken = default)
         {
-            return await _context.SegmentosSunat
-                .AsNoTracking() // porque es solo lectura
+            return await DbContext.SegmentosSunat
+                .AsNoTracking()
                 .OrderBy(x => x.Descripcion)
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<SegmentoSunat?> GetAsync(int id, CancellationToken cancellationToken = default)
+        public async Task<bool> ExistsByCodigoAsync(
+        string codigo,
+        CancellationToken cancellationToken = default)
         {
-            return await _context.SegmentosSunat.SingleOrDefaultAsync(c => c.IdSegmentoSunat == id, cancellationToken);
+            return await DbContext.SegmentosSunat
+                .AnyAsync(x => x.Codigo == codigo, cancellationToken);
+        }
+
+        public async Task<int> GetNextIdAsync(CancellationToken cancellationToken = default)
+        {
+            int maxId = await DbContext.SegmentosSunat
+                .MaxAsync(x => (int?)x.Id, cancellationToken) ?? 0;
+
+            return maxId + 1;
         }
     }
 }

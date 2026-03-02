@@ -2,9 +2,6 @@
 using DataConsulting.Efactura.Application.Abstractions.Messaging;
 using DataConsulting.Efactura.Domain.Abstractions;
 using DataConsulting.Efactura.Domain.SegmentosSunat;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DataConsulting.Efactura.Application.SegmentosSunat.Commands.CreateSegmentoSunat
 {
@@ -15,33 +12,25 @@ namespace DataConsulting.Efactura.Application.SegmentosSunat.Commands.CreateSegm
     {
         public async Task<Result> Handle(CreateSegmentoSunatCommand request, CancellationToken cancellationToken)
         {
-            SegmentoSunat? existente = await repository.GetAsync(request.IdSegmentoSunat, cancellationToken);
-            if (existente is not null)
+            if (await repository.ExistsByCodigoAsync(request.Codigo, cancellationToken))
             {
-                return Result.Failure(SegmentoSunatErrors.NotFound(request.IdSegmentoSunat));
+                return Result.Failure(SegmentoSunatErrors.CodigoDuplicado(request.Codigo));
             }
 
-            string codigo = request.Codigo.Trim();
-            bool codigoExiste = await repository.ExistsByCodigoAsync(codigo, cancellationToken);
-            if (codigoExiste)
-            {
-                return Result.Failure(SegmentoSunatErrors.CodigoDuplicado(codigo));
-            }
-
-            string descripcion = request.Descripcion.Trim();
+            int nuevoId = await repository.GetNextIdAsync(cancellationToken);
 
             var entity = SegmentoSunat.Create(
-                request.IdSegmentoSunat,
-                codigo,
-                descripcion,
-                request.IdUsuarioCreador,
+                nuevoId,
+                request.Codigo,
+                request.Descripcion,
+                1,
                 DateTime.UtcNow);
 
-            repository.Insert(entity);
+            repository.Add(entity);
 
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return Result.Success();
+            return Result.Success(entity.Id);
         }
     }
 }

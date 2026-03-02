@@ -1,9 +1,28 @@
-﻿using DataConsulting.Efactura.Domain.Enums;
+﻿using DataConsulting.Efactura.Domain.Abstractions;
+using DataConsulting.Efactura.Domain.Enums;
 
 namespace DataConsulting.Efactura.Domain.SegmentosSunat
 {
-    public sealed class SegmentoSunat
+    public sealed class SegmentoSunat : Entity
     {
+        private SegmentoSunat(
+            int id,
+            string codigo,
+            string descripcion,
+            EEstado estado,
+            short updateToken,
+            short idUsuarioCreador,
+            DateTime fechaCreacion)
+            : base(id)
+        {
+            Codigo = codigo;
+            Descripcion = descripcion;
+            Estado = estado;
+            UpdateToken = updateToken;
+            IdUsuarioCreador = idUsuarioCreador;
+            FechaCreacion = fechaCreacion;
+        }
+
         private SegmentoSunat() { }
 
         public int IdSegmentoSunat { get; private set; }
@@ -25,7 +44,7 @@ namespace DataConsulting.Efactura.Domain.SegmentosSunat
             string codigo,
             string descripcion,
             short idUsuarioCreador,
-            DateTime fechaCreacionUtc)
+            DateTime fechaCreacion)
         {
             return new SegmentoSunat
             {
@@ -35,7 +54,7 @@ namespace DataConsulting.Efactura.Domain.SegmentosSunat
                 Estado = EEstado.Activo,
                 UpdateToken = 1,
                 IdUsuarioCreador = idUsuarioCreador,
-                FechaCreacion = fechaCreacionUtc
+                FechaCreacion = fechaCreacion
             };
         }
     }
