@@ -1,8 +1,5 @@
 ﻿using DataConsulting.Efactura.Domain.Abstractions;
 using DataConsulting.Efactura.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DataConsulting.Efactura.Domain.ClasesSunat
 {

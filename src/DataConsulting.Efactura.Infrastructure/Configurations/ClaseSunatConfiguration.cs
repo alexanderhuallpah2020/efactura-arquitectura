@@ -2,9 +2,6 @@
 using DataConsulting.Efactura.Domain.FamiliasSunat;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DataConsulting.Efactura.Infrastructure.Configurations
 {
